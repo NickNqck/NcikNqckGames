@@ -1,0 +1,7 @@
+name: NickNqckGames
+version: '${version}'
+main: fr.games.NickNqckGames
+authors: [NickNqck]
+commands:
+  duel:
+    description: Non
