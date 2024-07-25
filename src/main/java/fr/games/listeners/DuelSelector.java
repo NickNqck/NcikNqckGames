@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public class DuelSelector implements Listener {
 
@@ -25,28 +24,6 @@ public class DuelSelector implements Listener {
                 }
                 event.setCancelled(true);
             }
-        }
-    }
-    @EventHandler
-    private void onInventoryQuit(InventoryCloseEvent event) {
-        if (event.getInventory().getTitle().contains("§cDuels§7 - §6") && event.getPlayer() instanceof Player) {
-            Bukkit.getScheduler().runTaskLaterAsynchronously(NickNqckGames.getInstance(), () -> {
-                boolean cancel;
-                if (event.getPlayer().getOpenInventory() == null) {
-                    cancel = true;
-                } else {
-                    cancel = true;
-                    for (DuelType type : DuelType.values()) {
-                        if (event.getPlayer().getOpenInventory().getTitle().contains(type.getName())) {
-                            cancel = false;
-                        }
-                    }
-                }
-                if (cancel) {
-                    NickNqckGames.getInstance().getDuelsTask().CancelDuel(event.getPlayer().getUniqueId());
-                    event.getPlayer().sendMessage("§7Vous avez annulé votre duel.");
-                }
-            }, 5);
         }
     }
 }
