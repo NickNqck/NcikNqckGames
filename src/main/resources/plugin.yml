@@ -5,3 +5,4 @@ authors: [NickNqck]
 commands:
   duel:
     description: Non
+    usage: /duel <joueur>
