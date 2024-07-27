@@ -1,6 +1,7 @@
 package fr.games.tasks;
 
 import fr.games.DuelType;
+import fr.games.NickNqckGames;
 import fr.games.listeners.DuelSelector;
 import fr.games.utils.ItemBuilder;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -40,7 +41,7 @@ public class DuelsTask {
                 this.inDuels.put(type, toAdd);
                 TextComponent toSend = new TextComponent("§c"+player.getName()+"§7 vous défie en duel de "+type.getName()+"\n\n");
                 TextComponent acceptMessage = new TextComponent("§a§lACCEPTER");
-                acceptMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept "+target.getName()));
+                acceptMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept "+player.getName()));
                 toSend.addExtra(acceptMessage);
                 toSend.addExtra("\n\n");
                 TextComponent refuseMessage = new TextComponent("§c§lREFUSER");
@@ -76,7 +77,16 @@ public class DuelsTask {
         System.out.println("END");
     }
 
-    public void AcceptDuel(UUID uuid) {
-
+    public void AcceptDuel(String name) {
+        System.out.println("0");
+        for (DuelType type : DuelType.values()) {
+            if (this.inDuels.containsKey(type)){
+                Map<String, String> inDuels = this.inDuels.get(type);
+                if (inDuels.containsKey(name)) {
+                    NickNqckGames.getInstance().getDuelStarter().startDuel(type, name, inDuels.get(name));
+                }
+            }
+        }
+        System.out.println("END");
     }
 }

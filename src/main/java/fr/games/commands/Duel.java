@@ -25,13 +25,15 @@ public class Duel implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
                         NickNqckGames.getInstance().getDuelsTask().CancelDuel(target.getName());
+                        sender.sendMessage("§7Vous avez§c refuser§7 votre duel");
                     }
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("accept")) {
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
-                        NickNqckGames.getInstance().getDuelsTask().AcceptDuel(target.getUniqueId());
+                        NickNqckGames.getInstance().getDuelsTask().AcceptDuel(target.getName());
+                        sender.sendMessage("§7Vous avez§a accepter§7 votre duel");
                     }
                     return true;
                 }
