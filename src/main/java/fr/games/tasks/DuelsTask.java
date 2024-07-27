@@ -14,7 +14,7 @@ import java.util.*;
 
 public class DuelsTask {
     private final Map<UUID, UUID> duels = new HashMap<>();
-    private final Map<DuelType, Map<UUID, UUID>> inDuels = new HashMap<>();
+    private final Map<DuelType, Map<String, String>> inDuels = new HashMap<>();
 
     public DuelsTask() {
         new DuelSelector();
@@ -35,16 +35,16 @@ public class DuelsTask {
             Player target = Bukkit.getPlayer(duels.get(clicker));
             Player player = Bukkit.getPlayer(clicker);
             if (target != null && player != null) {
-                Map<UUID, UUID> toAdd = new HashMap<>();
-                toAdd.put(player.getUniqueId(), target.getUniqueId());
+                Map<String, String> toAdd = new HashMap<>();
+                toAdd.put(player.getName(), target.getName());
                 this.inDuels.put(type, toAdd);
                 TextComponent toSend = new TextComponent("§c"+player.getName()+"§7 vous défie en duel de "+type.getName()+"\n\n");
                 TextComponent acceptMessage = new TextComponent("§a§lACCEPTER");
-                acceptMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept "+target.getUniqueId()));
+                acceptMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept "+target.getName()));
                 toSend.addExtra(acceptMessage);
                 toSend.addExtra("\n\n");
                 TextComponent refuseMessage = new TextComponent("§c§lREFUSER");
-                refuseMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel refuse "+ target.getUniqueId()));
+                refuseMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel refuse "+ target.getName()));
                 toSend.addExtra(refuseMessage);
                 target.spigot().sendMessage(toSend);
                 player.sendMessage("§c"+target.getName()+"§7 à reçus une requête de duel.");
@@ -53,21 +53,27 @@ public class DuelsTask {
         }
     }
 
-    public void CancelDuel(UUID canceller) {
-        for (Map<UUID, UUID> inDuels : this.inDuels.values()) {
+    public void CancelDuel(String canceller) {
+        System.out.println("0");
+        for (Map<String, String> inDuels : this.inDuels.values()) {
+            System.out.println("1");
             if (inDuels.containsKey(canceller)) {
-                inDuels.remove(canceller, inDuels.get(canceller));
+                System.out.println("2");
                 System.out.println("removed "+canceller+" and "+inDuels.get(canceller)+" from duel queue");
+                inDuels.remove(canceller, inDuels.get(canceller));
             } else if (inDuels.containsValue(canceller)) {
-                for (UUID uuid : inDuels.keySet()) {
+                System.out.println("3");
+                for (String uuid : inDuels.keySet()) {
+                    System.out.println("4");
                     if (inDuels.get(uuid).equals(canceller)) {
-                        inDuels.remove(uuid, canceller);
+                        System.out.println("5");
                         System.out.println("removed "+uuid+" and "+canceller+" from duel queue");
+                        inDuels.remove(uuid, canceller);
                     }
                 }
             }
-            break;
         }
+        System.out.println("END");
     }
 
     public void AcceptDuel(UUID uuid) {

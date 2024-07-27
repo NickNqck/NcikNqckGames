@@ -22,14 +22,17 @@ public class Duel implements CommandExecutor {
                 }
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("refuse")) {
-                    UUID target = UUID.fromString(args[1]);
-                    System.out.println(target);
-                    NickNqckGames.getInstance().getDuelsTask().CancelDuel(target);
+                    Player target = Bukkit.getPlayer(args[1]);
+                    if (target != null) {
+                        NickNqckGames.getInstance().getDuelsTask().CancelDuel(target.getName());
+                    }
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("accept")) {
-                    UUID target = UUID.fromString(args[1]);
-                    NickNqckGames.getInstance().getDuelsTask().AcceptDuel(target);
+                    Player target = Bukkit.getPlayer(args[1]);
+                    if (target != null) {
+                        NickNqckGames.getInstance().getDuelsTask().AcceptDuel(target.getUniqueId());
+                    }
                     return true;
                 }
             }
